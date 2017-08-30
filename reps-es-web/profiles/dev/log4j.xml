@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n"/>
+        </layout>
+    </appender>
+    
+	<!-- 输出到日志文件 -->
+    <appender name="reps" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.base}/logs/elastic.log" />
+        <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true"/> 
+        <!-- 重命名日志格式 -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%c] - &lt;%m&gt;%n"/>
+        </layout>
+    </appender>
+
+    <logger name="com.reps" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+    </logger>
+    
+    <root>
+        <level value="ERROR" />
+        <appender-ref ref="reps" />
+    </root>
+    
+</log4j:configuration>

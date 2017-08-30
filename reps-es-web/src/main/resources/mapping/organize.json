@@ -1,0 +1,1 @@
+{"id":{"store":true,"type":"string","index":"no"},"name":{"store":true,"index":"not_analyzed","type":"string","fields":{"ik":{"store":true,"analyzer":"ik","type":"string","term_vector":"with_positions_offsets"}}}}

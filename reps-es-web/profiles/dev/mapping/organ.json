@@ -1,0 +1,1 @@
+{"id":{"store":true,"type":"string","index":"no"},"name":{"store":true,"analyzer":"ik","type":"string","term_vector":"with_positions_offsets"},"create_dt":{"store":true,"type":"date","format":"YYYY-mm-dd"}}

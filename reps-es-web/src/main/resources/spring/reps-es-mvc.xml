@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.1.xsd
+	"> 
+	
+	<context:component-scan base-package="com.reps.**.action;com.reps.es.action"/>
+	<mvc:annotation-driven />
+	
+	<context:component-scan base-package="com.reps.es.**;com.reps.core.**">
+		<context:exclude-filter type ="annotation" expression= "org.springframework.stereotype.Controller" />
+	</context:component-scan> 
+	
+	<!-- 注入properties配置到Spring中 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:elasticconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="propertyPlaceholderConfigurer" class="com.reps.core.RepsConstant">
+		<property name="locations">
+			<list>
+				<value>classpath:elasticconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置集群信息 -->
+	<bean id="elasticsearchManager" class="com.reps.es.util.ElasticsearchManager">
+		<constructor-arg name="host" value="${es.cluster.host}" />
+		<constructor-arg name="port" value="${es.cluster.port}" />
+		<property name="esConfig">
+			<map>
+				<entry key="cluster.name" value="${es.cluster.name}"></entry>
+				<entry key="cluster.host" value="${es.cluster.host}"></entry>
+				<entry key="client.transport.sniff" value="${es.client.transport.sniff}"></entry>
+				<entry key="client.transport.ping_timeout" value="${es.client.transport.ping_timeout}"></entry>
+				<entry key="client.transport.nodes_sampler_interval" value="${es.client.transport.nodes_sampler_interval}"></entry>
+				<entry key="client.transport.ignore_cluster_name" value="${es.client.transport.ignore_cluster_name}"></entry>
+				<entry key="shield.user" value="${es.shield.user}"></entry>
+				
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 索引分片设置 -->
+	<bean id="indicesManager" class="com.reps.es.util.IndicesManager">
+		<property name="indexSetting">
+			<map>
+				<entry key="index.number_of_shards" value="${es.index.number_of_shards}"></entry>
+				<entry key="index.number_of_replicas" value="${es.index.number_of_replicas}"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 查询参数设置 -->
+	<bean id="queryParam" class="com.reps.es.util.QueryParam" scope="prototype">
+		<property name="indices" value="${es.index.name}"></property>
+		<property name="types" value="${es.index.type}"></property>
+		<property name="queryFields" value="${es.search.fields}"></property>
+		<property name="returnFields" value="${es.search.return.fields}"></property>
+		<property name="hightlighterFields" value="${es.search.highlighterfield}"></property>
+		<property name="highlighterPreTags" value="${es.search.highlighterpretags}"></property>
+		<property name="highlighterPostTags" value="${es.search.highlighterposttags}"></property>
+		
+	</bean>
+	
+	<!-- 获取es客户端 -->
+	<bean id="client" factory-bean="elasticsearchManager"
+		factory-method="getClient"/>
+	
+	<!-- json format 配置 -->
+	<mvc:annotation-driven>
+	   <mvc:message-converters>  
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	            <property name="objectMapper">
+	                <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+	                    <property name="dateFormat">
+	                        <bean class="java.text.SimpleDateFormat">
+	                            <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+	                        </bean>
+	                    </property>
+	                </bean>
+	            </property>
+	            <property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+					</list>
+				</property>
+	        </bean>
+        </mvc:message-converters>  
+	</mvc:annotation-driven>
+	<task:annotation-driven/>
+	
+	<!-- servlet 初始化配置 -->
+	<bean id="configAppKey" class="com.reps.core.api.impl.ConfigAppKey"></bean>
+</beans>

@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.reps</groupId>
+		<artifactId>reps-es-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>reps-es-web</artifactId>
+	<version>1.0.0-SHAPSHOT</version>
+	<packaging>war</packaging>
+	<name>reps-es-web</name>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.reps</groupId>
+			<artifactId>reps-core-restful</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.reps</groupId>
+			<artifactId>reps-es-core</artifactId>
+		</dependency>
+		
+		<!-- core API -->
+		<dependency>
+			<groupId>com.reps</groupId>
+	  		<artifactId>reps-core-api</artifactId>
+		</dependency>
+
+		<!-- web依赖包 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env.config>profiles/dev</env.config>
+			</properties>
+		</profile>
+		<profile>
+			<id>zjg-204</id>
+			<properties>
+				<env.config>profiles/zjg-204</env.config>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<env.config>profiles/production</env.config>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<version>3.0</version>
+					<webResources>
+						<resource>
+							<directory>${env.config}</directory>
+							<targetPath>/</targetPath>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.14</version>
+				<configuration>
+					<!-- 设置包含的测试类 -->
+					<!-- <includes> <include>**/Hello*</include> </includes> -->
+					<!-- 设置不进行测试的类 <excludes> <exclude>Test*</exclude> </excludes> -->
+					<!-- 跳过测试阶段，一般不推荐跳过 -->
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+</project>
