@@ -1,5 +1,7 @@
 package com.reps.es.util;
 
+import static com.reps.es.util.AnalyzerEnum.IK;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -317,7 +319,7 @@ public class IndicesUtil {
 		for (Map.Entry<String, HighlightField> entry : result.entrySet()) {
 			String key = entry.getKey();
 			Text[] fragments = entry.getValue().fragments();
-			sourceContent.put(StringUtil.removeEndIgnoreCase(key, ".ik"), StringUtils.join(fragments, ""));
+			sourceContent.put(StringUtil.removeEndIgnoreCase(key, IK.getSuffix()), StringUtils.join(fragments, ""));
 		}
 		list.add(sourceContent);
 	}
