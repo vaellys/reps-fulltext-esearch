@@ -71,7 +71,7 @@
 	</bean>
 	
 	<!-- 查询参数设置 -->
-	<bean id="queryParam" class="com.reps.es.util.QueryParam" scope="prototype">
+	<bean id="queryParam" class="com.reps.es.util.QueryParam" scope="request">
 		<property name="indices" value="${es.index.name}"></property>
 		<property name="types" value="${es.index.type}"></property>
 		<property name="queryFields" value="${es.search.fields}"></property>
@@ -79,7 +79,8 @@
 		<property name="hightlighterFields" value="${es.search.highlighterfield}"></property>
 		<property name="highlighterPreTags" value="${es.search.highlighterpretags}"></property>
 		<property name="highlighterPostTags" value="${es.search.highlighterposttags}"></property>
-		
+		<!-- 使用request请求作用域时指定为生成目标对象的代理 -->
+		<aop:scoped-proxy/>
 	</bean>
 	
 	<!-- 获取es客户端 -->

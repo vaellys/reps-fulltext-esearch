@@ -393,7 +393,6 @@ public class IndicesUtil {
 						sourceContent.put(entry.getValue().getName(),  entry.getValue().getValue());
 					}
 					setReturnHighlightField(list, hit, sourceContent);
-					list.add(sourceContent);
 				}
 				resultList = setListResult(pageSize, totalCount, list);
 			}

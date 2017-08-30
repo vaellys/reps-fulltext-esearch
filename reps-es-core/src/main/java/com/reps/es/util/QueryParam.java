@@ -48,6 +48,9 @@ public class QueryParam {
 	 * 返回指定字段
 	 */
 	private String returnFields;
+	
+	public QueryParam() {
+	}
 
 	public String getIndices() {
 		return indices;
