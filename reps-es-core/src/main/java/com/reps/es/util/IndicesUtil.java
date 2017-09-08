@@ -332,8 +332,7 @@ public class IndicesUtil {
 	 * @return
 	 */
 	private static ListResult<Map<String, ?>> setListResult(int pageSize, long totalCount, List<Map<String, ?>> list) {
-		ListResult<Map<String, ?>> resultList;
-		resultList = new ListResult<>();
+		ListResult<Map<String, ?>> resultList = new ListResult<>();
 		resultList.setList(list);
 		resultList.setCount(totalCount);
 		resultList.setPageSize(pageSize);
@@ -389,13 +388,7 @@ public class IndicesUtil {
 				list = new ArrayList<>();
 				for (SearchHit hit : searchHists) {
 					Map<String, SearchHitField> fieldMap = hit.getFields();
-					
-					Map<String, Object> sourceContent = new HashMap<>();
-					for (Entry<String, SearchHitField> entry : fieldMap.entrySet()) {
-						SearchHitField searchHitField = entry.getValue();
-						sourceContent.put(searchHitField.getName(),  searchHitField.getValue());
-					}
-					setReturnHighlightField(list, hit, sourceContent);
+					setReturnHighlightField(list, hit, setSourceContent(fieldMap));
 				}
 				resultList = setListResult(pageSize, totalCount, list);
 			}
@@ -476,11 +469,7 @@ public class IndicesUtil {
 				resultList = new ArrayList<>();
 				for (SearchHit hit : searchHists) {
 					Map<String, SearchHitField> fieldMap = hit.getFields();
-					Map<String, Object> sourceContent = new HashMap<>();
-					for (Entry<String, SearchHitField> entry : fieldMap.entrySet()) {
-						sourceContent.put(entry.getValue().getName(),  entry.getValue().getValue());
-					}
-					resultList.add(sourceContent);
+					resultList.add(setSourceContent(fieldMap));
 				}
 			}
 		} catch (Exception e) {
@@ -489,5 +478,13 @@ public class IndicesUtil {
 			throw e;
 		} 
 		return resultList;
+	}
+
+	private static Map<String, Object> setSourceContent(Map<String, SearchHitField> fieldMap) {
+		Map<String, Object> sourceContent = new HashMap<>();
+		for (Entry<String, SearchHitField> entry : fieldMap.entrySet()) {
+			sourceContent.put(entry.getValue().getName(),  entry.getValue().getValue());
+		}
+		return sourceContent;
 	}
 }
