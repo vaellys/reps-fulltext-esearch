@@ -483,7 +483,8 @@ public class IndicesUtil {
 	private static Map<String, Object> setSourceContent(Map<String, SearchHitField> fieldMap) {
 		Map<String, Object> sourceContent = new HashMap<>();
 		for (Entry<String, SearchHitField> entry : fieldMap.entrySet()) {
-			sourceContent.put(entry.getValue().getName(),  entry.getValue().getValue());
+			SearchHitField searchHitField = entry.getValue();
+			sourceContent.put(searchHitField.getName(), searchHitField.getValue());
 		}
 		return sourceContent;
 	}
