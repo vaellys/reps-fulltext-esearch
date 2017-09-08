@@ -6,6 +6,7 @@ package com.reps.es.util;
  * @date 2017年8月30日 上午10:17:03
  */
 public enum AnalyzerEnum {
+	
 	IK("ik", ".ik");
 	
 	private String analyzer;

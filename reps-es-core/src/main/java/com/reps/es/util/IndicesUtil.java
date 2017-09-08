@@ -392,7 +392,8 @@ public class IndicesUtil {
 					
 					Map<String, Object> sourceContent = new HashMap<>();
 					for (Entry<String, SearchHitField> entry : fieldMap.entrySet()) {
-						sourceContent.put(entry.getValue().getName(),  entry.getValue().getValue());
+						SearchHitField searchHitField = entry.getValue();
+						sourceContent.put(searchHitField.getName(),  searchHitField.getValue());
 					}
 					setReturnHighlightField(list, hit, sourceContent);
 				}
