@@ -27,9 +27,11 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.common.text.Text;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchException;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHitField;
@@ -268,15 +270,14 @@ public class IndicesUtil {
 			String[] hightlighterFields = queryParam.getHightlighterFields().split(",");
 			String preTags = queryParam.getHighlighterPreTags();
 			String postTags = queryParam.getHighlighterPostTags();
-			// 结果容器
-			List<Map<String, ?>> list = null;
-			
+			BoolQueryBuilder boolQuery = requireQueryBuilder(queryParam.getConditionMaps());
 			QueryStringQueryBuilder queryBuilder = setQueryStringBuilder(keywords, queryFields);
+			boolQuery.must(queryBuilder);
 			//设置查询构建器
 			SearchRequestBuilder searchRequestBuilder = client
 					.prepareSearch(indices)
 					.setTypes(types)
-					.setQuery(queryBuilder);
+					.setQuery(boolQuery);
 			setHighlighter(hightlighterFields, preTags, postTags, searchRequestBuilder);
 			//发送查询请求
 			SearchResponse searchResponse = searchRequestBuilder
@@ -290,12 +291,12 @@ public class IndicesUtil {
 			logger.info("查询到记录数: {}", totalCount);
 			SearchHit[] searchHists = hits.getHits();
 			if(searchHists.length > 0){
-				list = new ArrayList<>();
+				// 结果容器
+				List<Map<String, ?>> list = new ArrayList<>();
 				for (SearchHit hit : searchHists) {
 					Map<String, Object> sourceContent = hit.getSource();
 					setReturnHighlightField(list, hit, sourceContent);
 				}
-				
 				resultList = setListResult(pageSize, totalCount, list);
 			}
 			
@@ -305,6 +306,19 @@ public class IndicesUtil {
 			throw e;
 		} 
 		return resultList;
+	}
+	
+	protected static BoolQueryBuilder requireQueryBuilder(Map<String, String> conditionMaps) {
+		BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+		if(null != conditionMaps) {
+			for (Map.Entry<String, String> entry : conditionMaps.entrySet()) {
+				String field = entry.getKey();
+				String value = entry.getValue();
+				TermQueryBuilder termQuery = QueryBuilders.termQuery(field, value);
+				boolQuery.must(termQuery);
+			}
+		}
+		return boolQuery;
 	}
 	
 	/**

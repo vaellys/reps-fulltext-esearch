@@ -1,5 +1,7 @@
 package com.reps.es.util;
 
+import java.util.Map;
+
 /**
  * @ClassName: QueryParamDTO
  * @Description: 查询参数bean
@@ -48,6 +50,11 @@ public class QueryParam {
 	 * 返回指定字段
 	 */
 	private String returnFields;
+	
+	/**
+	 * 条件map
+	 */
+	private Map<String, String> conditionMaps;
 	
 	public QueryParam() {
 	}
@@ -115,4 +122,13 @@ public class QueryParam {
 	public void setReturnFields(String returnFields) {
 		this.returnFields = returnFields;
 	}
+
+	public Map<String, String> getConditionMaps() {
+		return conditionMaps;
+	}
+
+	public void setConditionMaps(Map<String, String> conditionMaps) {
+		this.conditionMaps = conditionMaps;
+	}
+	
 }

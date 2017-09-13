@@ -1,5 +1,6 @@
 package com.reps.es.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +59,9 @@ public class EsApi implements IApiExecutor{
 				throw new ApiException("访问的接口不存在");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("全文检索失败!", e);
-			throw new ApiException("全文检索失败 ", e);
+			throw new ApiException("全文检索失败 :" + e.getMessage());
 		}
     	
     }
@@ -73,25 +75,31 @@ public class EsApi implements IApiExecutor{
 
 	private void setQueryParams(Map<String, String> params, Pagination pager, boolean hasKeywords, boolean isFuzzy) throws ApiException {
 		try {
-			if(!params.containsKey("index")){
-				throw new ApiException("index参数为必输项");
-			}
-			if(!params.containsKey("type")){
-				throw new ApiException("type参数为必输项");
-			}
 			String index = params.get("index");
 			String type = params.get("type");
+			if(StringUtil.isBlank(index)){
+				throw new ApiException("index参数不能为空");
+			}
+			if(StringUtil.isBlank(type)){
+				throw new ApiException("type参数不能为空");
+			}
 			String size = params.get("pageSize");
 			Integer pageSize = null;
 			//是否有关键词，不带查询所有记录
 			if(hasKeywords) {
-				if(!params.containsKey("keywords")){
-					throw new ApiException("keywords参数为必输项");
-				}
 				String keywords = params.get("keywords");
+				if(StringUtil.isBlank(keywords)) {
+					throw new ApiException("keywords关键词不能为空");
+				}
 				logger.debug("===========keywords============== " + keywords);
 				if(isFuzzy) {
 					queryParam.setKeywords("*" + keywords + "*");
+					String orgType = params.get("orgType");
+					if(StringUtil.isNotBlank(orgType)) {
+						Map<String, String> conditionMaps = new HashMap<String, String>();
+						conditionMaps.put("orgType", orgType);
+						queryParam.setConditionMaps(conditionMaps);
+					}
 				}else {
 					queryParam.setKeywords(keywords);
 				}
@@ -104,9 +112,9 @@ public class EsApi implements IApiExecutor{
 			queryParam.setIndices(index);
 			queryParam.setTypes(type);
 		} catch (Exception e) {
-			logger.error("格式转换异常", e);
 			e.printStackTrace();
-			throw new ApiException("");
+			logger.error("参数设置失败", e);
+			throw e;
 		}
 	}
 
