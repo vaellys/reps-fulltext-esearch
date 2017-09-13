@@ -1,15 +1,13 @@
 package com.reps.es.util;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reps.es.exception.ElasticsearchException;
 
 public class JsonParseUtil {
 	
@@ -34,7 +32,7 @@ public class JsonParseUtil {
 	public static final String LIST = "list";
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<Map<String, ?>> parse(String responseJson){
+	public static List<Map<String, ?>> parse(String responseJson) throws ElasticsearchException{
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			Map message = mapper.readValue(responseJson, Map.class);
@@ -45,22 +43,12 @@ public class JsonParseUtil {
 			}else{
 				logger.debug("服务调用不成功 {}", responseJson);
 			}
-		} catch (JsonParseException e) {
-			logger.error("json解析异常");
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			logger.error("json映射异常");
-			e.printStackTrace();
-		} catch (IOException e) {
-			logger.error("解析数据失败");
-			e.printStackTrace();
+			logger.error("解析JSON失败", e);
+			throw new ElasticsearchException("解析JSON失败", e);
 		}
 		return null;
 	}
 	
-	public static void main(String[] args) {
-		String responseJson = "{\"status\":200, \"result\":{\"list\":[{}]}}";
-		List<Map<String, ?>> parse = parse(responseJson);
-		System.out.println(parse);
-	}
 }
