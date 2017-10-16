@@ -12,6 +12,7 @@
 	<name>reps-es-parent</name>
 	<modules>
 		<module>reps-es-core</module>
+		<module>reps-es-sdk</module>
 		<module>reps-es-web</module>
 	</modules>
 	

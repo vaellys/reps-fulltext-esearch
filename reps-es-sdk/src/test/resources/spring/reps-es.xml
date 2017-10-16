@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.reps.es.**;com.reps.core.**">
+	</context:component-scan> 
+	
+	<!-- 注入properties配置到Spring中 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:elasticconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="propertyPlaceholderConfigurer" class="com.reps.core.RepsConstant">
+		<property name="locations">
+			<list>
+				<value>classpath:elasticconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置集群信息 -->
+	<bean id="elasticsearchManager" class="com.reps.es.util.ElasticsearchManager">
+		<constructor-arg name="host" value="${es.cluster.host}" />
+		<constructor-arg name="port" value="${es.cluster.port}" />
+		<property name="esConfig">
+			<map>
+				<entry key="cluster.name" value="${es.cluster.name}"></entry>
+				<entry key="cluster.host" value="${es.cluster.host}"></entry>
+				<entry key="client.transport.sniff" value="${es.client.transport.sniff}"></entry>
+				<entry key="client.transport.ping_timeout" value="${es.client.transport.ping_timeout}"></entry>
+				<entry key="client.transport.nodes_sampler_interval" value="${es.client.transport.nodes_sampler_interval}"></entry>
+				<entry key="client.transport.ignore_cluster_name" value="${es.client.transport.ignore_cluster_name}"></entry>
+				<entry key="shield.user" value="${es.shield.user}"></entry>
+				
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 索引分片设置 -->
+	<bean id="indicesManager" class="com.reps.es.util.IndicesManager">
+		<property name="indexSetting">
+			<map>
+				<entry key="index.number_of_shards" value="${es.index.number_of_shards}"></entry>
+				<entry key="index.number_of_replicas" value="${es.index.number_of_replicas}"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 查询参数设置 -->
+	<bean id="queryParam" class="com.reps.es.util.QueryParam" scope="request">
+		<property name="indices" value="${es.index.name}"></property>
+		<property name="types" value="${es.index.type}"></property>
+		<property name="queryFields" value="${es.search.fields}"></property>
+		<property name="returnFields" value="${es.search.return.fields}"></property>
+		<property name="hightlighterFields" value="${es.search.highlighterfield}"></property>
+		<property name="highlighterPreTags" value="${es.search.highlighterpretags}"></property>
+		<property name="highlighterPostTags" value="${es.search.highlighterposttags}"></property>
+	</bean>
+	
+	<!-- 获取es客户端 -->
+	<bean id="client" factory-bean="elasticsearchManager"
+		factory-method="getClient"/>
+	
+</beans>
