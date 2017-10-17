@@ -19,4 +19,13 @@ public interface IESearchIndexProvider {
 	 */
 	public boolean addIndex(ConfigParam configParam, Map<String, FieldKey> keyMapper, List<Map<String, ?>> documents) throws ElasticsearchException;
 	
+	/**
+	 * 通过ID删除
+	 * @param configParam
+	 * @param ids
+	 * @return
+	 * @throws ElasticsearchException
+	 */
+	public boolean delete(ConfigParam configParam, List<String> ids) throws ElasticsearchException;
+	
 }

@@ -45,6 +45,11 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 	}
 	
 	@Override
+	public boolean deleteById(String index, String type, String id) throws ElasticsearchException {
+		return IndicesUtil.deleteById(esManager.getClient(), index, type, id);
+	}
+	
+	@Override
 	public boolean addIndexMapping(String index, String type, Map<String, ?> indexSettings, Map<String, String> mappingSettings) throws ElasticsearchException{
 		//若索引类型为空，则根据mappingSettings中key->value进行索引类型设置
 		if(StringUtils.isEmpty(type)){

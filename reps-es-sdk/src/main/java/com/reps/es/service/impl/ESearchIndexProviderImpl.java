@@ -83,9 +83,46 @@ public class ESearchIndexProviderImpl implements IESearchIndexProvider {
 		}
 		if(listResult.size() > 0) {
 			return elasticsearchService.addIndex(index, type, listResult);
-		}else {
+		} else {
 			throw new ElasticsearchException("索引数据不能为空");
 		}
+	}
+
+	@Override
+	public boolean delete(ConfigParam configParam, List<String> ids) throws ElasticsearchException {
+		if(null == configParam || null == ids) {
+			throw new ElasticsearchException("参数异常");
+		}
+		String index = configParam.getIndex();
+		if(StringUtil.isBlank(index)) {
+			throw new ElasticsearchException("索引名称不能为空");
+		}
+		String type = configParam.getType();
+		if(StringUtil.isBlank(type)) {
+			throw new ElasticsearchException("索引类型不能为空");
+		}
+		String ip = configParam.getIp();
+		if(StringUtil.isBlank(ip)) {
+			throw new ElasticsearchException("ip不能为空");
+		}
+		Integer port = configParam.getPort();
+		if(null == port) {
+			throw new ElasticsearchException("端口不能为空");
+		}
+		//设置ip + 端口
+		esManager.setHost(ip);
+		esManager.setPort(port);
+		if (ids.size() > 0) {
+			for (String id : ids) {
+				boolean isFound = elasticsearchService.deleteById(index, type, id);
+				if (!isFound) {
+					logger.info("删除数据ID不存在 {}", id);
+				} else {
+					logger.info("删除数据成功ID {}", id);
+				}
+			}
+		}
+		return true;
 	}
 
 }

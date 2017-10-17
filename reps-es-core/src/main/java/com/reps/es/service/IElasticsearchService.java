@@ -37,6 +37,16 @@ public interface IElasticsearchService {
 	 * @throws ElasticsearchException
 	 */
 	public boolean deleteIndex(String index) throws ElasticsearchException;
+	
+	/**
+	 * 通过ID删除
+	 * @param index
+	 * @param type
+	 * @param id
+	 * @return
+	 * @throws ElasticsearchException
+	 */
+	public boolean deleteById(String index, String type, String id) throws ElasticsearchException;
 
 	/**
 	 * 添加索引设置和映射类型

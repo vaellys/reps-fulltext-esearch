@@ -24,12 +24,12 @@ import com.reps.es.util.AnalyzerEnum;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/spring/reps-es.xml" })
-public class EsServiceImplTest {
+public class ESearchIndexProviderImplTest {
 	
 	 /**
      * Logger for this class
      */
-    private static final Logger logger = LoggerFactory.getLogger(EsServiceImplTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ESearchIndexProviderImplTest.class);
     
     @Autowired
     private IESearchIndexProvider esService;
@@ -63,6 +63,27 @@ public class EsServiceImplTest {
         } catch (Exception e) {
             e.printStackTrace();
             fail("----------构建索引失败----------");
+        }
+    }
+    
+    @Test
+    public void testDelete() {
+    	try {
+    		//删除数据
+            List<String> ids = new ArrayList<>();
+            ids.add("AV8pkBL9U8rKE5DcEov3");
+            logger.debug("data list map {}", ids);
+            //参数配置
+			ConfigParam configParam = new ConfigParam();
+			configParam.setIndex("reps");
+			configParam.setType("organize");
+			configParam.setIp("localhost");
+			configParam.setPort(9300);
+			boolean result = esService.delete(configParam, ids);
+            assertEquals(true, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("----------删除索引失败----------");
         }
     }
 

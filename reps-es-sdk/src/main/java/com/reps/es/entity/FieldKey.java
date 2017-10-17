@@ -9,18 +9,23 @@ import com.reps.es.util.AnalyzerEnum;
 
 public class FieldKey {
 	
-	/** 是否存储 */
+	/** 内容是否存储 */
 	private boolean store = true;
 	
+	/** 映射字段类型 */
 	private String type = "string";
 	
+	/** 分词器名称 通过AnalyzerEnum 来获取*/
 	private String analyzer;
 	
+	/** 索引类型 通过IndexType 来获取值 */
 	private String index;
 	
+	/** 词向量 用于高亮显示*/
 	private String term_vector;
 	
-	private FieldKey fields;
+	/** 映射字级字段 暂时不用 */
+	private Map<String, FieldKey> fields;
 
 	public boolean isStore() {
 		return store;
@@ -54,14 +59,14 @@ public class FieldKey {
 		this.term_vector = term_vector;
 	}
 
-	public FieldKey getFields() {
+	public Map<String, FieldKey> getFields() {
 		return fields;
 	}
 
-	public void setFields(FieldKey fields) {
+	public void setFields(Map<String, FieldKey> fields) {
 		this.fields = fields;
 	}
-	
+
 	public String getAnalyzer() {
 		return analyzer;
 	}
@@ -71,14 +76,22 @@ public class FieldKey {
 	}
 	
 	public static void main(String[] args) {
+		
 		Map<String, FieldKey> keyMap = new HashMap<>();
-		FieldKey key = new FieldKey();
-		key.setStore(true);
-		key.setType(FieldType.STRING.getValue());
+		
 		FieldKey fields = new FieldKey();
-		fields.setAnalyzer(AnalyzerEnum.IK.getAnalyzer());
-		key.setFields(fields);
-		keyMap.put("name", key);
+		fields.setStore(true);
+		fields.setType(FieldType.STRING.getValue());
+		
+		FieldKey key = new FieldKey();
+		key.setAnalyzer(AnalyzerEnum.IK.getAnalyzer());
+		
+		Map<String, FieldKey> fieldKeyMap = new HashMap<>();
+		fieldKeyMap.put(AnalyzerEnum.IK.getAnalyzer(), key);
+		
+		fields.setFields(fieldKeyMap);
+		
+		keyMap.put("name", fields);
 		
 		String jsonString = JSON.toJSONString(keyMap);
 		System.out.println(jsonString);

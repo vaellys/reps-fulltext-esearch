@@ -19,6 +19,7 @@ import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryAction;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
@@ -247,6 +248,26 @@ public class IndicesUtil {
 				client, DeleteByQueryAction.INSTANCE);
 		response.setIndices(index).setTypes(type).setSource(b.toString())
 				.execute().actionGet();
+	}
+	
+	/**
+	 * 通过ID进行删除
+	 * @param client
+	 * @param index
+	 * @param type
+	 * @param id
+	 * @return long
+	 * @throws ElasticsearchException
+	 */
+	public static boolean deleteById(Client client, String index, String type, String id) throws ElasticsearchException {
+		try {
+			DeleteResponse deleteResponse = client.prepareDelete(index, type, id).execute().actionGet();
+			return deleteResponse.isFound();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("删除失败 {}", id);
+			throw e;
+		}
 	}
 	
 	/**

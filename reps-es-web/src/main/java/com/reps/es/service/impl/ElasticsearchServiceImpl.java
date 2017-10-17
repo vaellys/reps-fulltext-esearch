@@ -160,4 +160,9 @@ public class ElasticsearchServiceImpl implements IElasticsearchService, IRebuild
 		return searcher(client, queryParam, pageNow, pageSize);
 	}
 
+	@Override
+	public boolean deleteById(String index, String type, String id) throws ElasticsearchException {
+		return IndicesUtil.deleteById(client, index, type, id);
+	}
+
 }
