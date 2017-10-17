@@ -63,6 +63,22 @@ public class ElasticsearchManager {
 		return client;
 	}
 	
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 	public static void main(String[] args) {
 		String host = "localhost";
 		Map<String, String> esConfig = new HashMap<>();

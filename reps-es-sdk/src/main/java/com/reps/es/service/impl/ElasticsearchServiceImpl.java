@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +27,21 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 	private static Logger logger = LoggerFactory.getLogger(ElasticsearchServiceImpl.class);
 	
 	@Autowired
-	private Client client;
+	private ESearchConfigManager esManager;
 	
 	@Override
 	public boolean addIndex(String index, String type, String id, Map<String, ?> document) throws ElasticsearchException {
-		return indexDocument(client, index, type, id, document);
+		return indexDocument(esManager.getClient(), index, type, id, document);
 	}
 
 	@Override
 	public boolean addIndex(String index, String type, List<Map<String, ?>> documents) throws ElasticsearchException {
-		return indexDocument(client, index, type, documents);
+		return indexDocument(esManager.getClient(), index, type, documents);
 	}
 	
 	@Override
 	public boolean deleteIndex(String index) throws ElasticsearchException {
-		return IndicesUtil.deleteIndex(client, index);
+		return IndicesUtil.deleteIndex(esManager.getClient(), index);
 	}
 	
 	@Override
@@ -57,7 +56,7 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 			if(mappingSettings.containsKey(type)){
 				putIndexMapper(index, type, indexSettings, mappingSettings.get(type));
 			}else{
-				logger.debug("索引映射列表 中不包含指定映射类型名称，请检查映射文件名称与传递索引类型是否一致");
+				logger.info("索引映射列表 中不包含指定映射类型名称，请检查映射文件名称与传递索引类型是否一致");
 				return false;
 			}
 		}
@@ -73,7 +72,7 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 		String value = sb.toString();
 		logger.debug("索引类型名称 {}，完整映射结构 {},", type, sb.toString());
 		//进行索引类型设置
-		boolean flag = putIndexMapping(client, index, type, indexSettings, value);
+		boolean flag = putIndexMapping(esManager.getClient(), index, type, indexSettings, value);
 		if(flag){ 
 			logger.info("映射创建成功: {}", value);
 		} else {
@@ -84,7 +83,7 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 	public ListResult<Map<String, ?>> search(QueryParam queryParam, int pageNow, int pageSize) throws ElasticsearchException{
 		setQueryFields(queryParam);
 		setHighlightFields(queryParam);
-		return searcher(client, queryParam, pageNow, pageSize);
+		return searcher(esManager.getClient(), queryParam, pageNow, pageSize);
 	}
 	
 	private String getFields(String[] fields) {
@@ -103,7 +102,7 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 	public ListResult<Map<String, ?>> specialSearch(QueryParam queryParam, int pageNow, int pageSize) throws ElasticsearchException {
 		setQueryFields(queryParam);
 		setHighlightFields(queryParam);
-		return searchHitField(client, queryParam, pageNow, pageSize);
+		return searchHitField(esManager.getClient(), queryParam, pageNow, pageSize);
 	}
 
 	private void setQueryFields(QueryParam queryParam) {
@@ -118,14 +117,14 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 
 	@Override
 	public List<Map<String, Object>> searchAll(QueryParam queryParam, int pageNow, int pageSize) throws ElasticsearchException {
-		return IndicesUtil.searchAll(client, queryParam, pageNow, pageSize);
+		return IndicesUtil.searchAll(esManager.getClient(), queryParam, pageNow, pageSize);
 	}
 
 	@Override
 	public ListResult<Map<String, ?>> fuzzySearch(QueryParam queryParam, int pageNow, int pageSize) throws ElasticsearchException {
 		//取消高亮
 		queryParam.setHightlighterFields("");
-		return searcher(client, queryParam, pageNow, pageSize);
+		return searcher(esManager.getClient(), queryParam, pageNow, pageSize);
 	}
 
 }
