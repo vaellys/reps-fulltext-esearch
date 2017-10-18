@@ -37,8 +37,4 @@ public class LoadResourcesUtil {
 		return mappingList;
 	}
 
-	public static void main(String[] args) {
-		Map<String, String> resources = getResources();
-		System.out.println(resources);
-	}
 }

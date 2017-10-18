@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.reps.es.entity.ConfigParam;
 import com.reps.es.entity.FieldKey;
 import com.reps.es.entity.enums.FieldType;
+import com.reps.es.entity.enums.IndexType;
 import com.reps.es.service.IESearchIndexProvider;
 import com.reps.es.util.AnalyzerEnum;
 
@@ -40,9 +41,9 @@ public class ESearchIndexProviderImplTest {
     		//索引数据
             List<Map<String, ?>> documents = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
-            map.put("id", "2");
+            map.put("id", "3");
             map.put("title", "你好");
-            map.put("name", "刘德华");
+            map.put("name", "张港生");
             documents.add(map);
             logger.debug("data list map {}", documents);
             //参数配置
@@ -58,6 +59,9 @@ public class ESearchIndexProviderImplTest {
 			key.setType(FieldType.STRING.getValue());
 			key.setAnalyzer(AnalyzerEnum.IK.getAnalyzer());
 			keyMap.put("name", key);
+			FieldKey idKey = new FieldKey();
+			idKey.setIndex(IndexType.NOT_ANALYZED.getValue());
+			keyMap.put("id", idKey);
 			boolean result = esService.addIndex(configParam, keyMap, documents);
             assertEquals(true, result);
         } catch (Exception e) {

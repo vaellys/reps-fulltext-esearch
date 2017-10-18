@@ -1,15 +1,13 @@
 package com.reps.es.service.impl;
 
 import static com.reps.es.util.AnalyzerEnum.IK;
-import static com.reps.es.util.IndicesUtil.indexDocument;
-import static com.reps.es.util.IndicesUtil.putIndexMapping;
-import static com.reps.es.util.IndicesUtil.searchHitField;
-import static com.reps.es.util.IndicesUtil.searcher;
+import static com.reps.es.util.IndicesUtil.*;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,15 @@ public class ElasticsearchServiceImpl implements IElasticsearchService {
 	
 	@Autowired
 	private ESearchConfigManager esManager;
+	
+	@Override
+	public boolean checkIndexType(String index, String type) throws ElasticsearchException {
+		Client client = esManager.getClient();
+		if(isIndexExists(client, index)) {
+			return isIndexTypeExists(esManager.getClient(), index, type);
+		}
+		return false;
+	}
 	
 	@Override
 	public boolean addIndex(String index, String type, String id, Map<String, ?> document) throws ElasticsearchException {

@@ -1,11 +1,6 @@
 package com.reps.es.entity;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
-import com.reps.es.entity.enums.FieldType;
-import com.reps.es.util.AnalyzerEnum;
 
 public class FieldKey {
 	
@@ -73,28 +68,6 @@ public class FieldKey {
 
 	public void setAnalyzer(String analyzer) {
 		this.analyzer = analyzer;
-	}
-	
-	public static void main(String[] args) {
-		
-		Map<String, FieldKey> keyMap = new HashMap<>();
-		
-		FieldKey fields = new FieldKey();
-		fields.setStore(true);
-		fields.setType(FieldType.STRING.getValue());
-		
-		FieldKey key = new FieldKey();
-		key.setAnalyzer(AnalyzerEnum.IK.getAnalyzer());
-		
-		Map<String, FieldKey> fieldKeyMap = new HashMap<>();
-		fieldKeyMap.put(AnalyzerEnum.IK.getAnalyzer(), key);
-		
-		fields.setFields(fieldKeyMap);
-		
-		keyMap.put("name", fields);
-		
-		String jsonString = JSON.toJSONString(keyMap);
-		System.out.println(jsonString);
 	}
 	
 }

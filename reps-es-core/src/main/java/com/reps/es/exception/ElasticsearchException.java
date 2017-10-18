@@ -24,4 +24,5 @@ public class ElasticsearchException extends Exception{
 	public ElasticsearchException(Throwable cause) {
 		super(cause);
 	}
+	
 }

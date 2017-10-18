@@ -71,7 +71,7 @@ public class IndicesUtil {
 	 * @param client
 	 * @return
 	 */
-	protected static boolean isIndexExists(Client client, String index) {
+	public static boolean isIndexExists(Client client, String index) {
 		if (Objects.equals(client, null)) {
 			logger.info("请求索引客户端为null");
 			return false;
@@ -92,7 +92,7 @@ public class IndicesUtil {
 	 * @param client
 	 * @return boolean
 	 */
-	protected static boolean isIndexTypeExists(Client client, String index, String type) {
+	public static boolean isIndexTypeExists(Client client, String index, String type) {
 		if (Objects.equals(client, null)) {
 			logger.info("请求索引客户端为null");
 			return false;
@@ -523,4 +523,5 @@ public class IndicesUtil {
 		}
 		return sourceContent;
 	}
+	
 }

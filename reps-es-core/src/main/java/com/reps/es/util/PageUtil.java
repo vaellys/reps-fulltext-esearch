@@ -29,4 +29,5 @@ public class PageUtil {
 	public static int getCurrentNum(Integer pageNow, Integer pageSize){
 	    return (cpn(pageNow) - 1)*cps(pageSize);
 	}
+
 }

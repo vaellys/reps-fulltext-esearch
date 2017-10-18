@@ -165,4 +165,12 @@ public class ElasticsearchServiceImpl implements IElasticsearchService, IRebuild
 		return IndicesUtil.deleteById(client, index, type, id);
 	}
 
+	@Override
+	public boolean checkIndexType(String index, String type) throws ElasticsearchException {
+		if(isIndexExists(client, index)) {
+			return isIndexTypeExists(client, index, type);
+		}
+		return false;
+	}
+
 }

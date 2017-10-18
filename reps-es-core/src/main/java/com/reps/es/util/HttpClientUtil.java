@@ -263,9 +263,4 @@ public class HttpClientUtil {
 		return responseContent;
 	}
 	
-	public static void main(String[] args) {
-		String sendHttpPost = HttpClientUtil.getInstance().sendHttpGet("http://223.202.64.204:50472/system/oapi/system/org/list?orgType=11");
-		System.out.println(sendHttpPost);
-	}
-
 }

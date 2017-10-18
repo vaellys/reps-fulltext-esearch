@@ -16,4 +16,5 @@ public class IndicesManager {
 	public void setIndexSetting(Map<String, ?> indexSetting) {
 		this.indexSetting = indexSetting;
 	}
+	
 }

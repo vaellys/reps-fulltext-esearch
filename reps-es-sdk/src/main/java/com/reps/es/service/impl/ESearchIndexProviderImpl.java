@@ -64,21 +64,23 @@ public class ESearchIndexProviderImpl implements IESearchIndexProvider {
 		//设置类型映射
 		Map<String, String> typeMap = new HashMap<>();
 		typeMap.put(type, JSON.toJSONString(keyMapper));
-		elasticsearchService.addIndexMapping(index, type, INDEX_SETTINGS, typeMap);
+		if(!elasticsearchService.checkIndexType(index, type)) {
+			elasticsearchService.addIndexMapping(index, type, INDEX_SETTINGS, typeMap);
+		}
 		//获取映射键列表
 		Set<String> keys = keyMapper.keySet();
 		//移除不需要建索引的字段
 		List<Map<String, ?>> listResult = new ArrayList<>();
 		if(null != documents && documents.size() > 0) {
 			for (Map<String, ?> map : documents) {
+				Map<String, Object> dataMap = new HashMap<>();
 				for (String key : keys) {
 					if(map.containsKey(key)) {
 						Object value = map.get(key);
-						Map<String, Object> dataMap = new HashMap<>();
 						dataMap.put(key, value);
-						listResult.add(dataMap);
 					}
 				}
+				listResult.add(dataMap);
 			}
 		}
 		if(listResult.size() > 0) {

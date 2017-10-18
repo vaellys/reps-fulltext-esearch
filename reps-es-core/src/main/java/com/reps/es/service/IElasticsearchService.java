@@ -10,6 +10,15 @@ import com.reps.es.util.QueryParam;
 public interface IElasticsearchService {
 	
 	/**
+	 * 判断索引类型是否存在
+	 * @param index
+	 * @param type
+	 * @return boolean
+	 * @throws ElasticsearchException
+	 */
+	public boolean checkIndexType(String index, String type) throws ElasticsearchException;
+	
+	/**
 	 * 索引单条文档
 	 * @param index
 	 * @param type

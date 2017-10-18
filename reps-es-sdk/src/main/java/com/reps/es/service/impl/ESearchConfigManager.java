@@ -2,13 +2,15 @@ package com.reps.es.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import org.elasticsearch.client.Client;
 import org.springframework.stereotype.Component;
 
 import com.reps.es.util.ElasticsearchManager;
 
 @Component("esManager")
 public class ESearchConfigManager extends ElasticsearchManager{
+	
+	private Client client;
 	
 	public ESearchConfigManager() {
 		super("localhost", 9300);
@@ -20,6 +22,11 @@ public class ESearchConfigManager extends ElasticsearchManager{
 		esConfig.put("client.transport.nodes_sampler_interval", "5s");
 		esConfig.put("client.transport.ignore_cluster_name", "false");
 		this.setEsConfig(esConfig);
+		this.client = super.getClient();
+	}
+
+	public Client getClient() {
+		return client;
 	}
 
 }
