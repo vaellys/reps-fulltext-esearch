@@ -17,7 +17,7 @@ public class ESearchConfigManager extends ElasticsearchManager{
 		Map<String, String> esConfig = new HashMap<>();
 		esConfig.put("cluster.name", "elastic");
 		esConfig.put("shield.user", "es_admin:vaellys");
-		esConfig.put("client.transport.sniff", "true");
+		esConfig.put("client.transport.sniff", "false");
 		esConfig.put("client.transport.ping_timeout", "20s");
 		esConfig.put("client.transport.nodes_sampler_interval", "5s");
 		esConfig.put("client.transport.ignore_cluster_name", "false");
