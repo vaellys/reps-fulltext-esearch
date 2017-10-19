@@ -2,6 +2,9 @@ package com.reps.es.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.PreDestroy;
+
 import org.elasticsearch.client.Client;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,13 @@ public class ESearchConfigManager extends ElasticsearchManager{
 
 	public Client getClient() {
 		return client;
+	}
+	
+	@PreDestroy
+	public void close() {
+		if(null != client) {
+			client.close();
+		}
 	}
 
 }

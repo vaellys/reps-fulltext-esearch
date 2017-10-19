@@ -43,7 +43,7 @@
 	</bean>
 	
 	<!-- 配置集群信息 -->
-	<bean id="elasticsearchManager" class="com.reps.es.util.ElasticsearchManager">
+	<bean id="elasticsearchManager" class="com.reps.es.util.ElasticsearchManager" destroy-method="close">
 		<constructor-arg name="host" value="${es.cluster.host}" />
 		<constructor-arg name="port" value="${es.cluster.port}" />
 		<property name="esConfig">
@@ -85,7 +85,7 @@
 	
 	<!-- 获取es客户端 -->
 	<bean id="client" factory-bean="elasticsearchManager"
-		factory-method="getClient"/>
+		factory-method="getClient" />
 	
 	<!-- json format 配置 -->
 	<mvc:annotation-driven>

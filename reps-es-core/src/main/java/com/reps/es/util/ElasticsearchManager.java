@@ -62,6 +62,12 @@ public class ElasticsearchManager {
 		return client;
 	}
 	
+	public void close() {
+		if(null != client) {
+			client.close();
+		}
+	}
+	
 	public String getHost() {
 		return host;
 	}

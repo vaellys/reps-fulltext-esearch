@@ -35,7 +35,7 @@ public class ElasticsearchServiceImplTest {
     		configManager.setHost("localhost");
     		configManager.setPort(9300);
     		logger.debug("config manager client {}, host {}, port {}", configManager.getClient(), configManager.getHost(), configManager.getPort());
-			boolean result = esService.deleteIndex("reps");
+			boolean result = esService.deleteIndex("index");
             assertEquals(true, result);
         } catch (Exception e) {
             e.printStackTrace();

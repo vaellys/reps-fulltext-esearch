@@ -41,9 +41,9 @@ public class ESearchIndexProviderImplTest {
     		//索引数据
             List<Map<String, ?>> documents = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
-            map.put("id", "3");
-            map.put("title", "你好");
-            map.put("name", "张港生");
+            map.put("id", "10");
+            map.put("title", "SB");
+            map.put("name", "王六");
             documents.add(map);
             logger.debug("data list map {}", documents);
             //参数配置
