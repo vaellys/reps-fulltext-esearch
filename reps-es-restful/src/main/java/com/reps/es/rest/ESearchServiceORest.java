@@ -44,8 +44,8 @@ public class ESearchServiceORest extends RestBaseController {
 			@RequestParam(name = "pageSize", required = false) Integer pageSize) {
 		try {
 			ListResult<Map<String, ?>> result = provider.search(keywords, getCurrentNum(pageIndex, pageSize), cps(pageSize));
-			if (result == null || result.getCount() == 0 ) {
-				return wrap(RestResponseStatus.NOT_FOUND, "全文检索查询记录为空");
+			if (result == null) {
+				return wrap(RestResponseStatus.INTERNAL_SERVER_ERROR, "全文检索查询异常");
 			}
 			return wrap(RestResponseStatus.OK, "全文检索查询成功", result);
 		} catch (Exception e) {
