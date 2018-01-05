@@ -136,14 +136,14 @@ public class ESearchIndexProviderImplTest {
     @Test
     public void testSearch() {
     	try {
-    		String keywords = "刘";
+    		String keywords = "321312";
     		//查询字段列表
-            String[] fields = new String[] {"name", "resSummary", "resContent"};
+            String[] fields = new String[] {"addTime"};
             logger.debug("query data field list  {}", JSON.toJSONString(fields));
             //参数配置
 			ProviderConfig configParam = new ProviderConfig();
-			configParam.setIndex("reps");
-			configParam.setType("organize");
+			configParam.setIndex("res");
+			configParam.setType("res");
 			configParam.setIp("localhost");
 			configParam.setPort(9300);
 			ListResult<Map<String, ?>> searchResult = esService.search(configParam, fields, keywords, 0, 28);

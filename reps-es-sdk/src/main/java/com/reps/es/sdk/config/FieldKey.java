@@ -67,13 +67,6 @@ public class FieldKey {
 	public FieldKey(boolean store, FieldType type){
 		this.store = store;
 		this.type = type.getValue();
-		this.checkField(type.getValue());
-	}
-	
-	private void checkField(String fieldType) {
-		if(FieldType.DATE.getValue().equals(fieldType)) {
-			this.setFormat("yyyy-MM-dd HH:mm:ss");
-		}
 	}
 	
 	/**
@@ -89,7 +82,6 @@ public class FieldKey {
 		this.store = store;
 		this.type = type.getValue();
 		this.index = index.getValue();
-		this.checkField(type.getValue());
 	}
 	
 	public FieldKey(boolean store, FieldType type, IndexType index, AnalyzerEnum analyzer){

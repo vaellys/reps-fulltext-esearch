@@ -52,7 +52,9 @@ public class ContentFieldMapper {
 		keyMapper.put(FIELD_MAPPER_TITLE, new FieldKey());
 		keyMapper.put(FIELD_MAPPER_SUMMARY, new FieldKey());
 		keyMapper.put(FIELD_MAPPER_URL, new FieldKey(true, FieldType.STRING, IndexType.NO));
-		keyMapper.put(FIELD_MAPPER_TIME, new FieldKey(true, FieldType.DATE));
+		FieldKey fieldKey = new FieldKey(true, FieldType.DATE);
+		fieldKey.setFormat("yyyy-MM-dd HH:mm:ss");
+		keyMapper.put(FIELD_MAPPER_TIME, fieldKey);
 		return keyMapper;
 	}
 
