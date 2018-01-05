@@ -1,4 +1,4 @@
-package com.reps.es.service.impl;
+package com.reps.es.sdk.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.reps.es.sdk.service.impl.ESearchConfigManager;
 import com.reps.es.service.IElasticsearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -1,4 +1,4 @@
-package com.reps.es.service.impl;
+package com.reps.es.sdk.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +25,12 @@ public class ESearchConfigManager extends ElasticsearchManager{
 		esConfig.put("client.transport.nodes_sampler_interval", "5s");
 		esConfig.put("client.transport.ignore_cluster_name", "false");
 		this.setEsConfig(esConfig);
-		this.client = super.getClient();
 	}
 
 	public Client getClient() {
+		if(null == client) {
+			this.client = super.getClient();
+		}
 		return client;
 	}
 	

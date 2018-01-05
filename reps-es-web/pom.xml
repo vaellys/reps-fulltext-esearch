@@ -4,10 +4,9 @@
 	<parent>
 		<groupId>com.reps</groupId>
 		<artifactId>reps-es-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 	</parent>
 	<artifactId>reps-es-web</artifactId>
-	<version>1.0.0-SHAPSHOT</version>
 	<packaging>war</packaging>
 	<name>reps-es-web</name>
 

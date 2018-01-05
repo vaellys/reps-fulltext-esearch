@@ -17,7 +17,7 @@ public class PageUtil {
 	 * @return
 	 */
 	public static int cps(Integer pageSize) {
-	    return (pageSize == null || pageSize < 1 ? 1000 : pageSize);
+	    return (pageSize == null || pageSize < 1 ? 20 : pageSize);
 	}
 	
 	/**

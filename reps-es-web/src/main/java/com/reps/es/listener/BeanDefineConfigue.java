@@ -5,11 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import com.reps.es.exception.ElasticsearchException;
 import com.reps.es.service.IRebuildIndexService;
 
-//@Component("beanDefineConfigue")
+@Component("beanDefineConfigue")
 public class BeanDefineConfigue implements ApplicationListener<ContextRefreshedEvent> {
 
 	private static Logger logger = LoggerFactory.getLogger(BeanDefineConfigue.class);

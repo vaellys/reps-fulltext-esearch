@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.reps</groupId>
 		<artifactId>reps-es-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 	</parent>
 	<artifactId>reps-es-sdk</artifactId>
 	<name>reps-es-sdk</name>
@@ -19,6 +19,11 @@
 		<dependency>
 			<groupId>com.reps</groupId>
 			<artifactId>reps-es-core</artifactId>
+		</dependency>
+		
+		<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
 		</dependency>
 		
 		 <dependency>

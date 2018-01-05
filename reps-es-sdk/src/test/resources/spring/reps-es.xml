@@ -15,4 +15,11 @@
 	<context:component-scan base-package="com.reps.es.**;com.reps.core.**">
 	</context:component-scan> 
 	
+	<bean id="providerConfig" class="com.reps.es.sdk.config.ProviderConfig">
+		<constructor-arg name="ip" value="localhost" />
+		<constructor-arg name="port" value="9300" />
+		<property name="index" value="reps"></property>
+		<property name="type" value="organize"></property>
+	</bean>
+	
 </beans>

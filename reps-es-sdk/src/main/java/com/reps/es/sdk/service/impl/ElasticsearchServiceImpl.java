@@ -1,4 +1,4 @@
-package com.reps.es.service.impl;
+package com.reps.es.sdk.service.impl;
 
 import static com.reps.es.util.AnalyzerEnum.IK;
 import static com.reps.es.util.IndicesUtil.*;

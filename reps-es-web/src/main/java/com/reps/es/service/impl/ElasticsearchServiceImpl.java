@@ -108,8 +108,8 @@ public class ElasticsearchServiceImpl implements IElasticsearchService, IRebuild
 	@Scheduled(cron = "0 0 2 * * ?") // 每天2点重新建立索引
 //	@Scheduled(cron = "*/20 * * * * ?") // 测试：每分钟重建一次数据库
 	public void rebuildIndex() throws ElasticsearchException {
-		String index = RepsConstant.getContextProperty("es.rebuild.index.name");
-		String type = RepsConstant.getContextProperty("es.rebuild.index.type");
+		String index = RepsConstant.getContextProperty("es.index.name");
+		String type = RepsConstant.getContextProperty("es.index.type");
 		String callBackUrl = RepsConstant.getContextProperty("es.rebuild.callback.http.url");
 		
 		String[] types = type.split(",");

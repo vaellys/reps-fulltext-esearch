@@ -24,7 +24,7 @@ public class QueryParam {
 	/**
 	 * 查询关键词
 	 */
-	private String keywords;
+	private String keywords = "";
 	
 	/**
 	 * 查询字段域,多个以逗号隔开
@@ -34,17 +34,17 @@ public class QueryParam {
 	/**
 	 * 高亮显示字段,多个以逗号隔开
 	 */
-	private String hightlighterFields;
+	private String hightlighterFields = "";
 	
 	/**
 	 * 高亮前缀标签
 	 */
-	private String highlighterPreTags;
+	private String highlighterPreTags = "";
 	
 	/**
 	 * 高亮后缀标签
 	 */
-	private String highlighterPostTags;
+	private String highlighterPostTags = "";
 	
 	/**
 	 * 返回指定字段

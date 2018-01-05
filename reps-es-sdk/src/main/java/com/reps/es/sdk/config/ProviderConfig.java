@@ -1,4 +1,4 @@
-package com.reps.es.entity;
+package com.reps.es.sdk.config;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author qianguobing
  * @date 2017年10月17日 下午3:15:52
  */
-public class ConfigParam implements Serializable{
+public class ProviderConfig implements Serializable{
 	
 	private static final long serialVersionUID = -6012265652601474802L;
 
@@ -23,11 +23,21 @@ public class ConfigParam implements Serializable{
 	/** es索引类型 */
 	private String type;
 	
-	public ConfigParam() {
+	/**
+	 * 高亮前缀标签
+	 */
+	private String highlighterPreTags = "";
+	
+	/**
+	 * 高亮后缀标签
+	 */
+	private String highlighterPostTags = "";
+	
+	public ProviderConfig() {
 		
 	}
 	
-	public ConfigParam(String ip, Integer port) {
+	public ProviderConfig(String ip, Integer port) {
 		this.ip = ip;
 		this.port = port;
 	}
@@ -62,6 +72,22 @@ public class ConfigParam implements Serializable{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String getHighlighterPreTags() {
+		return highlighterPreTags;
+	}
+
+	public void setHighlighterPreTags(String highlighterPreTags) {
+		this.highlighterPreTags = highlighterPreTags;
+	}
+
+	public String getHighlighterPostTags() {
+		return highlighterPostTags;
+	}
+
+	public void setHighlighterPostTags(String highlighterPostTags) {
+		this.highlighterPostTags = highlighterPostTags;
 	}
 
 	@Override
