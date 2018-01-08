@@ -26,7 +26,7 @@ public class RebuildIndexStartTask implements IRebuildIndexService{
 	
 	@Override
 	public void rebuildIndex() throws ElasticsearchException {
-		String index = RepsConstant.getContextProperty("es.rebuild.index.name");
+		String index = RepsConstant.getContextProperty("es.index.name");
 		String indexType = RepsConstant.getContextProperty("es.index.type");
 		String[] types = indexType.split(",");
 		//删除索引时索引不存在会在创建索引映射时创建

@@ -136,9 +136,9 @@ public class ESearchIndexProviderImplTest {
     @Test
     public void testSearch() {
     	try {
-    		String keywords = "321312";
+    		String keywords = "刘";
     		//查询字段列表
-            String[] fields = new String[] {"addTime"};
+            String[] fields = new String[] {"name", "resSummary", "resContent"};
             logger.debug("query data field list  {}", JSON.toJSONString(fields));
             //参数配置
 			ProviderConfig configParam = new ProviderConfig();
